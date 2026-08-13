@@ -1,3 +1,10 @@
+const KEY='jimmy-ai-lab-dashboard-v1';
+const stages=['Idea','Research','Approved','Prototype','Validation','Paid Pilot','Commercial','Scale','Retired'];
+let state=load(),route='dashboard',active=null,tab='Problem';
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{products:[]}}catch{return{products:[]}}}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function score(p){let a=[p.frequency,p.urgency,p.budget,p.aiAdvantage,p.dataAccess,p.distribution,p.recurring,p.defensibility,6-p.difficulty,6-p.securityRisk].map(v=>+v||3);return Math.round(a.reduce((x,y)=>x+y,0)/50*100)}
+function recommendation(s){return s>=80?'GO':s>=65?'TEST':s>=50?'HOLD':'NO-GO'}
 const navs=[['dashboard','Dashboard'],['products','Product Lab'],['knowledge','Knowledge Center'],['portfolio','Portfolio'],['settings','Settings']];
 const lessons=[['LLMs','AI models predict useful next pieces of information from instructions and context.'],['RAG','The AI looks up approved information before answering.'],['Agents','AI can use approved tools to complete multi-step work.'],['Evaluation','Judge AI by whether it completes the job correctly, safely, and efficiently.'],['Product Intelligence','Build repeated painful problems for buyers who will pay for measurable value.']];
 function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
